@@ -22,10 +22,11 @@ export const loader: LoaderFunction = async (
   return result;
 };
 
-export const action: ActionFunction = async () => {
-  const contact = await createContact();
-  return redirect(`/contacts/${contact.id}/edit`);
-};
+export const action: ActionFunction =
+  async (/*args: ActionFunctionArgs*/): Promise<Response> => {
+    const contact = await createContact();
+    return redirect(`/contacts/${contact.id}/edit`);
+  };
 export const Root: FC = () => {
   const { state } = useNavigation();
   return (
