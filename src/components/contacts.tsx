@@ -1,9 +1,10 @@
 import type { FC } from "react";
 import { NavLink, useLoaderData } from "react-router-dom";
-import { ContactType } from "../types";
+import { RootLoaderResult } from "../types/RootLoaderResult";
 
 export const Contacts: FC = () => {
-  const { contacts } = useLoaderData() as { contacts: ContactType[] };
+  const { contacts } = useLoaderData() as RootLoaderResult;
+
   return (
     <nav>
       {contacts.length ? (

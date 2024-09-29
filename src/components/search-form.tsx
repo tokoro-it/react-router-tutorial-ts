@@ -6,14 +6,15 @@ import {
   useNavigation,
   useSubmit,
 } from "react-router-dom";
+import { RootLoaderResult } from "../types/RootLoaderResult";
 
 export const SearchForm: FC = () => {
-  const { q } = useLoaderData();
+  const { q } = useLoaderData() as RootLoaderResult;
   const { location } = useNavigation();
   const submit = useSubmit();
   const searching = location && new URLSearchParams(location.search).has("q");
   useEffect(() => {
-    (document.getElementById("q") as HTMLInputElement).value = q;
+    (document.getElementById("q") as HTMLInputElement).value = q ?? "";
   }, [q]);
   return (
     <div>
@@ -25,7 +26,7 @@ export const SearchForm: FC = () => {
           placeholder="Search"
           type="search"
           name="q"
-          defaultValue={q}
+          defaultValue={q ?? undefined}
           onChange={({ currentTarget: { form } }) => {
             const isFirstSearch = q == null;
             // submit(form);
