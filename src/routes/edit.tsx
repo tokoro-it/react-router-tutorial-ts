@@ -3,7 +3,8 @@ import type { FC } from "react";
 import type { ActionFunction } from "react-router-dom";
 import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { updateContact } from "../contacts";
-import type { ContactType, Params } from "../types";
+import type { Params } from "../types";
+import { ContactLoaderResult } from "../types/ContactLoaderResult";
 
 export const action: ActionFunction<{
   request: Request;
@@ -15,9 +16,8 @@ export const action: ActionFunction<{
   return redirect(`/contacts/${contactId}`);
 };
 export const EditContact: FC = () => {
-  const {
-    contact: { first, last, twitter, avatar, notes },
-  } = useLoaderData() as { contact: ContactType };
+  const { contact } = useLoaderData() as ContactLoaderResult;
+
   const navigate = useNavigate();
   return (
     <Form method="post" id="contact-form">
@@ -28,14 +28,14 @@ export const EditContact: FC = () => {
           aria-label="First name"
           type="text"
           name="first"
-          defaultValue={first}
+          defaultValue={contact.first}
         />
         <input
           placeholder="Last"
           aria-label="Last name"
           type="text"
           name="last"
-          defaultValue={last}
+          defaultValue={contact.last}
         />
       </p>
       <label>
@@ -44,7 +44,7 @@ export const EditContact: FC = () => {
           type="text"
           name="twitter"
           placeholder="@jack"
-          defaultValue={twitter}
+          defaultValue={contact.twitter}
         />
       </label>
       <label>
@@ -54,12 +54,12 @@ export const EditContact: FC = () => {
           aria-label="Avatar URL"
           type="text"
           name="avatar"
-          defaultValue={avatar}
+          defaultValue={contact.avatar}
         />
       </label>
       <label>
         <span>Notes</span>
-        <textarea name="notes" defaultValue={notes} rows={6} />
+        <textarea name="notes" defaultValue={contact.notes} rows={6} />
       </label>
       <p>
         <button type="submit">Save</button>

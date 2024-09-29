@@ -1,21 +1,26 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { FC } from "react";
-import type { LoaderFunction } from "react-router-dom";
+import type { LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
 import { Form, useFetcher, useLoaderData } from "react-router-dom";
 import { getContact, updateContact } from "../contacts";
-import type { ContactType, Params } from "../types";
+import type { ContactType } from "../types";
+import { ContactLoaderResult } from "../types/ContactLoaderResult";
 
-export const loader: LoaderFunction<Params> = async ({
-  params: { contactId },
-}) => {
-  const contact = await getContact(contactId);
+export const loader: LoaderFunction = async (
+  args: LoaderFunctionArgs
+): Promise<ContactLoaderResult> => {
+  const contact = await getContact(args.params.contactId);
   if (!contact) {
     throw new Response("", {
       status: 404,
       statusText: "Not Found",
     });
   }
-  return { contact };
+  const result: ContactLoaderResult = {
+    contact,
+  };
+
+  return result;
 };
 export const action = async ({ request, params: { contactId } }) => {
   const formData = await request.formData();
@@ -24,7 +29,7 @@ export const action = async ({ request, params: { contactId } }) => {
   });
 };
 export const Contact: FC = () => {
-  const { contact } = useLoaderData() as { contact: ContactType };
+  const { contact } = useLoaderData() as ContactLoaderResult;
   return (
     <div id="contact">
       <div>
