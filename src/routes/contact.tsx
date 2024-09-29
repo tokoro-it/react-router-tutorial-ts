@@ -1,6 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { FC } from "react";
-import type { LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
+import type {
+  ActionFunction,
+  ActionFunctionArgs,
+  LoaderFunction,
+  LoaderFunctionArgs,
+} from "react-router-dom";
 import { Form, useFetcher, useLoaderData } from "react-router-dom";
 import { getContact, updateContact } from "../contacts";
 import type { ContactType } from "../types";
@@ -22,12 +27,17 @@ export const loader: LoaderFunction = async (
 
   return result;
 };
-export const action = async ({ request, params: { contactId } }) => {
-  const formData = await request.formData();
+
+export const action: ActionFunction = async (
+  args: ActionFunctionArgs
+): Promise<ContactType> => {
+  const formData = await args.request.formData();
+  const contactId = args.params.contactId as string;
   return updateContact(contactId, {
     favorite: formData.get("favorite") === "true",
   });
 };
+
 export const Contact: FC = () => {
   const { contact } = useLoaderData() as ContactLoaderResult;
   return (
