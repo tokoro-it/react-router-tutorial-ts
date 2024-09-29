@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type { FC } from "react";
 import type { LoaderFunction } from "react-router-dom";
 import { Form, useFetcher, useLoaderData } from "react-router-dom";

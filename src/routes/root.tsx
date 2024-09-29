@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type { FC } from "react";
 import type { ActionFunction, LoaderFunction } from "react-router-dom";
 import { Outlet, redirect, useNavigation } from "react-router-dom";
