@@ -1,11 +1,11 @@
-import { ActionFunction, redirect } from "react-router-dom";
+import { ActionFunction, ActionFunctionArgs, redirect } from "react-router-dom";
 import { deleteContact } from "../contacts";
-import { Params } from "../types";
 
-export const action: ActionFunction<Params> = async ({
-  params: { contactId },
-}) => {
+export const action: ActionFunction = async (
+  args: ActionFunctionArgs
+): Promise<Response> => {
   // throw new Error('oh dang!');
+  const contactId = args.params.contactId;
   if (contactId) {
     await deleteContact(contactId);
   }
