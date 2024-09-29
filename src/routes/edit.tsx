@@ -1,20 +1,21 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { FC } from "react";
-import type { ActionFunction } from "react-router-dom";
+import type { ActionFunction, ActionFunctionArgs } from "react-router-dom";
 import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { updateContact } from "../contacts";
-import type { Params } from "../types";
 import { ContactLoaderResult } from "../types/ContactLoaderResult";
 
-export const action: ActionFunction<{
-  request: Request;
-  params: Params;
-}> = async ({ request, params: { contactId } }) => {
-  const formData = await request.formData();
+export const action: ActionFunction = async (
+  args: ActionFunctionArgs
+): Promise<Response> => {
+  const formData = await args.request.formData();
   const updates = Object.fromEntries(formData);
+  const contactId = args.params.contactId as string;
+
   await updateContact(contactId, updates);
   return redirect(`/contacts/${contactId}`);
 };
+
 export const EditContact: FC = () => {
   const { contact } = useLoaderData() as ContactLoaderResult;
 
